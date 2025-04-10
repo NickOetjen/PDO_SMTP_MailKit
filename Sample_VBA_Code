@@ -1,0 +1,56 @@
+Public Function PDO_SMTP_COM_Addin()
+
+On Error Resume Next
+
+    ' PDO: Requires installed COM-Addin "PDO_SMTP_AddIn" , see Extras -> References
+
+    Dim objMail As PDO_SMTP_AddIn.SendMail_using_SMTP
+    Set objMail = New PDO_SMTP_AddIn.SendMail_using_SMTP
+
+    ' PDO: Check connection to COM-Addin
+    
+    Debug.Print objMail.HelloWorld
+
+
+
+    ' PDO: Prepare Mail
+    objMail.smtpServer "smtp.yourserver.de"
+    objMail.IsSSL True
+    objMail.Password InputBox("Password")
+    
+    objMail.EmailFrom "john@doe.de"
+    
+    objMail.To_Add "jane@doe.de"
+    'objMail.To_Add "nick@doe.de"
+    
+    objMail.CC_Add "nick@doe.de"
+    objMail.BCC_Add "nick2@doe.de"
+    
+    objMail.Subject "This is my new subject"
+    objMail.HTMLBody "The <strong>body</strong> of it, at " & Now()
+    
+    objMail.Attachment_Add "C:\Users\yours\Desktop\Sammy.gif"
+    
+    
+    ' PDO: Send Mail
+    Debug.Print objMail.SendMail()
+
+
+Err_Handler:
+
+    If Err.Number <> 0 Then
+    
+        MsgBox Err.Description
+    
+    End If
+
+    Set objMail = Nothing
+    
+    
+    
+    ' ****************************************
+    ' C|:-)  www.pdo.digital says Thank you !
+    ' ****************************************
+    
+    
+End Function
